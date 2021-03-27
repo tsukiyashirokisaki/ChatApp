@@ -8,5 +8,11 @@
         android:layout_height="wrap_content"
         android:text="chat"
         android:id="@+id/chat_btn"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="login"
+        android:layout_below="@+id/chat_btn"
+        android:id="@+id/go_to_login"/>
 
 </RelativeLayout>
