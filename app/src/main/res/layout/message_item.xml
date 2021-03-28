@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:id="@+id/message_user"
-            android:text="@string/user_name"
             android:textStyle="normal|bold"
             android:layout_alignBottom="@id/message_profile_image"
             android:layout_toEndOf="@id/message_profile_image"

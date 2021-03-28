@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail,inputPassword;
     private ProgressDialog loadingBar;
     private MyToast myToast;
+    private String userUidKey,userPasswordKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,14 @@ public class LoginActivity extends AppCompatActivity {
         myToast = new MyToast(LoginActivity.this);
         TextView forgetBtn = (TextView) findViewById(R.id.forget_btn);
         TextView registerBtn = (TextView) findViewById(R.id.register_btn);
+        userUidKey = Paper.book().read(Prevalent.UserUidKey);
+        userPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
+        Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+        if (userUidKey!=null & userPasswordKey!=null){
+            if (!userUidKey.equals("default_key")){
+                startActivity(intent);
+            }
+        }
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,10 +117,8 @@ public class LoginActivity extends AppCompatActivity {
                                 Paper.book().write(Prevalent.UserUidKey,firebaseUser.getUid());
                                 Paper.book().write(Prevalent.UserPasswordKey,password);
                                 Log.d("uid","write password"+firebaseUser.getUid()+Prevalent.UserUidKey);
-                                Utils.LoadAccountData(firebaseUser.getUid(),LoginActivity.this,null);
                                 Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
                                 startActivity(intent);
-
                             }
                         }
                         else{

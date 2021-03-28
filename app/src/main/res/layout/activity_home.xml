@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="3dp"
+        android:layout_marginVertical="10dp"
         >
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/home_profile_image"
@@ -24,7 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/home_user_name"
-            android:text="@string/user_name"
             android:textStyle="normal|bold"
             android:textSize="24sp"
             android:layout_centerVertical="true"
@@ -34,13 +33,14 @@
             style=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="logout"
+            android:text="@string/logout"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:layout_centerVertical="true"
             android:id="@+id/go_to_login"/>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listOfUser"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:layout_below="@id/profile"
