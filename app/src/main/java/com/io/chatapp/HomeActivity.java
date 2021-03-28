@@ -5,28 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.io.chatapp.Model.Message;
 import com.io.chatapp.Model.User;
 import com.io.chatapp.Prevalent.Prevalent;
 
@@ -66,8 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listOfUser);
-        displayUsers(recyclerView);
+
     }
     @Override
     protected void onStart () {
@@ -75,11 +65,11 @@ public class HomeActivity extends AppCompatActivity {
         if (userUidKey!=null){
             Utils.LoadAccountData(userUidKey,HomeActivity.this,userName);
         }
-
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listOfUser);
+        displayUsers(recyclerView);
     }
 
     private void displayUsers(final  RecyclerView recyclerView) {
-        Log.d("username","hello");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
@@ -87,14 +77,20 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseRecyclerAdapter<User, UserViewHolder> adapter = new FirebaseRecyclerAdapter<User, UserViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull UserViewHolder userViewHolder, int i, @NonNull final User user) {
-                Log.d("username",user.getName());
+                Log.d("reload user name",user.getName());
+                Log.d("reload current name",Prevalent.currentOnlineUser.getName());
+                if (user.getUid().equals(userUidKey)){
+                    userViewHolder.userName.setVisibility(View.GONE);
+                    userViewHolder.profileImage.setVisibility(View.GONE);
+                    return ;
+                }
                 userViewHolder.userName.setText(user.getName());
                 userViewHolder.profileImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(HomeActivity.this,ChatActivity.class);
-                        intent.putExtra("masterUid",Prevalent.currentOnlineUser.getUid());
                         intent.putExtra("rivalUid",user.getUid());
+                        intent.putExtra("rivalName",user.getName());
                         startActivity(intent);
                     }
                 });
@@ -102,7 +98,7 @@ public class HomeActivity extends AppCompatActivity {
             @NonNull
             @Override
             public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item,parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sender_item,parent,false);
                 UserViewHolder holder = new UserViewHolder(view);
                 return holder;
             }

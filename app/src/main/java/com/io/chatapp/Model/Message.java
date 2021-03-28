@@ -3,40 +3,41 @@ package com.io.chatapp.Model;
 import java.util.Date;
 
 public class Message {
-    private String MessageText;
-    private String MessageUser;
-    private long MessageTime;
+    private String content;
+    private String sender_uid;
+    private String receiver_uid;
+    private long time;
 
-    public Message(String messageText, String messageUser){
-        MessageText = messageText;
-        MessageUser = messageUser;
-        MessageTime = new Date().getTime();
+    public Message(String content, String sender_uid,String receiver_uid){
+        this.content = content;
+        this.sender_uid = sender_uid;
+        this.receiver_uid = receiver_uid;
+        this.time = new Date().getTime();
     }
-
     public Message() {
     }
-
-    public String getMessageText() {
-        return MessageText;
+    public String getContent() {
+        return content;
     }
-
-    public void setMessageText(String messageText) {
-        MessageText = messageText;
+    public void setContent(String content) {
+        this.content = content;
     }
-
-    public String getMessageUser() {
-        return MessageUser;
+    public String getSender_uid() {
+        return sender_uid;
     }
-
-    public void setMessageUser(String messageUser) {
-        MessageUser = messageUser;
+    public void setSender_uid(String sender_uid) {
+        this.sender_uid = sender_uid;
     }
-
-    public long getMessageTime() {
-        return MessageTime;
+    public String getReceiver_uid() {
+        return receiver_uid;
     }
-
-    public void setMessageTime(long messageTime) {
-        MessageTime = messageTime;
+    public void setReceiver_uid(String receiver_uid) {
+        this.receiver_uid = receiver_uid;
+    }
+    public long getTime() {
+        return time;
+    }
+    public void setTime(long time) {
+        this.time = time;
     }
 }
