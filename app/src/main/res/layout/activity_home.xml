@@ -40,7 +40,7 @@
             android:id="@+id/go_to_login"/>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listOfUser"
+        android:id="@+id/user_recyclerview"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:layout_below="@id/profile"
@@ -49,18 +49,7 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-        <Button
-            style=""
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="chat"
-            android:id="@+id/chat_btn"/>
 
-    </LinearLayout>
 
 
 </RelativeLayout>

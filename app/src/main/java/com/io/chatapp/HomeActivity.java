@@ -21,12 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.io.chatapp.Model.User;
 import com.io.chatapp.Prevalent.Prevalent;
 
-import ViewHolder.UserViewHolder;
+import com.io.chatapp.ViewHolder.UserViewHolder;
 import io.paperdb.Paper;
 
 public class HomeActivity extends AppCompatActivity {
     private TextView userName;
-    private Button chat_btn,logout_btn;
+    private Button logout_btn;
     private ProgressDialog loadingBar;
     private String userUidKey;
     private String userPasswordKey;
@@ -40,15 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         userName = (TextView) findViewById(R.id.home_user_name);
         loadingBar = new ProgressDialog(this);
         Log.d("uid",userUidKey);
-        chat_btn = (Button) findViewById(R.id.chat_btn);
         logout_btn = (Button) findViewById(R.id.go_to_login);
-        chat_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this,ChatActivity.class);
-                startActivity(intent);
-            }
-        });
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         if (userUidKey!=null){
             Utils.LoadAccountData(userUidKey,HomeActivity.this,userName);
         }
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listOfUser);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.user_recyclerview);
         displayUsers(recyclerView);
     }
 
@@ -98,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
             @NonNull
             @Override
             public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sender_item,parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item,parent,false);
                 UserViewHolder holder = new UserViewHolder(view);
                 return holder;
             }

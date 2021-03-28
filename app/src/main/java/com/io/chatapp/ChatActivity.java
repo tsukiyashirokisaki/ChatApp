@@ -1,32 +1,33 @@
 package com.io.chatapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.io.chatapp.Model.Message;
 import com.io.chatapp.Prevalent.Prevalent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.TimeZone;
+import com.io.chatapp.ViewHolder.MessageViewHolder;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -40,6 +41,8 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rivalUid = getIntent().getStringExtra("rivalUid");
         rivalName = getIntent().getStringExtra("rivalName");
+        setTitle(rivalName);
+
         send_btn = (Button) findViewById(R.id.send_btn);
         Log.d("btn",""+send_btn);
         send_btn.setOnClickListener(new View.OnClickListener() {
@@ -70,67 +73,98 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void displayChatMessage() {
-        final ListView listOfMessage = (ListView) findViewById(R.id.message_listview);
-        Query query = FirebaseDatabase.getInstance().getReference().child("Messages").orderByChild("time");
-        FirebaseListOptions<Message> options =
-                new FirebaseListOptions.Builder<Message>()
-                        .setQuery(query, Message.class)
-                        .setLayout(R.layout.message_item)
-                        .build();
-        adapter = new FirebaseListAdapter<Message>(options){
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.message_recyclerview);
+        recyclerView.setLayoutManager(layoutManager);
+        FirebaseRecyclerOptions<Message> options = new FirebaseRecyclerOptions.Builder<Message>()
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("Messages").orderByChild("time"), Message.class).build();
+        final FirebaseRecyclerAdapter<Message, MessageViewHolder> adapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(options) {
             @Override
-            protected void populateView(View v, Message model, int position) {
-                TextView messageText,messageUser,messageTime;
-                messageText = (TextView) v.findViewById(R.id.message_text);
-                messageUser = (TextView) v.findViewById(R.id.message_user);
-                messageTime = (TextView) v.findViewById(R.id.message_time);
-                Log.d("current uid",Prevalent.currentOnlineUser.getUid());
-                Log.d("rival uid",rivalUid);
-                Log.d("sender uid",model.getSender_uid());
-                Log.d("receiver uid",model.getReceiver_uid());
-                if (model.getSender_uid().equals(Prevalent.currentOnlineUser.getUid())){
-                    messageText.setText(model.getContent());
-                    messageUser.setText(Prevalent.currentOnlineUser.getName());
-                    messageTime.setText(DateFormat.format("HH:mm",model.getTime()));
-                }
-                else if (model.getSender_uid().equals(rivalUid)){
-                    messageText.setText(model.getContent());
-                    messageUser.setText(rivalName);
-                    messageTime.setText(DateFormat.format("HH:mm",model.getTime()));
-                }
-                else{
-                    messageText.setVisibility(View.GONE);
-                    messageUser.setVisibility(View.GONE);
-                    messageTime.setVisibility(View.GONE);
+            protected void onBindViewHolder(@NonNull MessageViewHolder messageViewHolder, int i, @NonNull Message message) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) messageViewHolder.userName.getLayoutParams();
+                if (message.getSender_uid().equals(Prevalent.currentOnlineUser.getUid())) {
+                    messageViewHolder.messageText.setText(message.getContent());
+                    messageViewHolder.userName.setText(Prevalent.currentOnlineUser.getName());
+                    messageViewHolder.messageTime.setText(DateFormat.format("HH:mm", message.getTime()));
+
+                    params.addRule(RelativeLayout.END_OF, messageViewHolder.profileImage.getId());
+                    messageViewHolder.userName.setLayoutParams(params);
+
+                    params = (RelativeLayout.LayoutParams) messageViewHolder.messageTime.getLayoutParams();
+                    params.addRule(RelativeLayout.END_OF, messageViewHolder.messageText.getId());
+                    messageViewHolder.messageTime.setLayoutParams(params);
+
+                } else if (message.getSender_uid().equals(rivalUid)) {
+                    messageViewHolder.userName.setLayoutParams(params);
+                    messageViewHolder.messageText.setText(message.getContent());
+                    messageViewHolder.userName.setText(rivalName);
+                    messageViewHolder.messageTime.setText(DateFormat.format("HH:mm", message.getTime()));
+
+                    params.addRule(RelativeLayout.START_OF, messageViewHolder.profileImage.getId());
+                    messageViewHolder.userName.setLayoutParams(params);
+
+                    params = (RelativeLayout.LayoutParams) messageViewHolder.profileImage.getLayoutParams();
+                    params.addRule(RelativeLayout.ALIGN_PARENT_END);
+                    messageViewHolder.profileImage.setLayoutParams(params);
+
+                    params = (RelativeLayout.LayoutParams) messageViewHolder.messageTime.getLayoutParams();
+                    params.addRule(RelativeLayout.START_OF, messageViewHolder.messageText.getId());
+                    messageViewHolder.messageTime.setLayoutParams(params);
+
+                    params = (RelativeLayout.LayoutParams) messageViewHolder.messageText.getLayoutParams();
+                    params.addRule(RelativeLayout.ALIGN_PARENT_END);
+                    messageViewHolder.messageText.setLayoutParams(params);
+
+
+                } else {
+                    messageViewHolder.messageText.setVisibility(View.GONE);
+                    messageViewHolder.messageTime.setVisibility(View.GONE);
+                    messageViewHolder.userName.setVisibility(View.GONE);
                 }
             }
-//            @Override
-//            public int getItemViewType(int position) {
-//                Message message = this.getItem(position);
-//                if (message.getSender_uid().equals(Prevalent.currentOnlineUser.getUid())) {
-//                    return 0;
-//                }
-//                return -1;
-//
-//            }
-        };
 
-        listOfMessage.setAdapter(adapter);
-        listOfMessage.post(new Runnable() {
+            @NonNull
             @Override
-            public void run() {
-                listOfMessage.setSelection(listOfMessage.getAdapter().getCount()-1);
+            public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item, parent, false);
+                MessageViewHolder holder = new MessageViewHolder(view);
+                return holder;
+            }
+        };
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Log.d("item count", "" + adapter.getItemCount());
+                        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                        recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
             }
         });
+
+
+//        recyclerView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
+
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        adapter.startListening();
+//    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        adapter.stopListening();
+//    }
 }

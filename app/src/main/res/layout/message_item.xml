@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/text_layout">
     <RelativeLayout
@@ -28,7 +28,6 @@
             android:id="@+id/message_user"
             android:textStyle="normal|bold"
             android:layout_alignBottom="@id/message_profile_image"
-            android:layout_toEndOf="@id/message_profile_image"
             />
     </RelativeLayout>
 
@@ -36,7 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/message_text"
-        android:layout_toEndOf="@id/message_text"
         android:layout_marginHorizontal="2dp"
         android:text="@string/time"
         android:id="@+id/message_time"
