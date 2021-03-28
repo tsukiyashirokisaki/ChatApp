@@ -9,7 +9,8 @@
     <string name="login">Login</string>
     <string name="forget_password">Forget Password</string>
     <string name="register">Register</string>
-
+    <string name="resend">Resend Verification Email</string>
+    <string name="refresh">Refresh / Login</string>
 
 
     <!-- Strings used for fragments for navigation -->

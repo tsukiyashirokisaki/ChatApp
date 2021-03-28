@@ -29,7 +29,6 @@ import java.util.TimeZone;
 public class ChatActivity extends AppCompatActivity {
 
     private FirebaseListAdapter<Message> adapter;
-    private  static  int SIGN_RESULT_CODE = 1;
     Button send_btn ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +49,10 @@ public class ChatActivity extends AppCompatActivity {
                                     "123"));
                     Log.d("btn","send message");
                     input.setText("");
-
-
                 }
-
             }
         });
         displayChatMessage();
-
-
     }
 
     @Override
@@ -70,7 +64,6 @@ public class ChatActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     private void displayChatMessage() {
@@ -102,9 +95,6 @@ public class ChatActivity extends AppCompatActivity {
                 listOfMessage.setSelection(10);
             }
         });
-
-
-
     }
     @Override
     protected void onStart() {

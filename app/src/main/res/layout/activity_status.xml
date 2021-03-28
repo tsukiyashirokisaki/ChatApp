@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StatusActivity"
+    android:background="#39649A"
+    >
+
+    <ImageView
+        android:layout_marginHorizontal="30dp"
+        android:id="@+id/login_applogo"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"/>
+    <TextView
+        android:id="@+id/text_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_below="@id/login_applogo"
+        android:layout_marginTop="0dp"
+        android:padding="10dp"
+        android:textColor="#C7DD82"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/text_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_below="@id/text_email"
+        android:layout_marginTop="6dp"
+        android:padding="10dp"
+        android:textColor="#C7DD82"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+
+
+
+
+
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_status"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="6dp"
+        android:padding="20dp"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        android:text="@string/refresh"
+        android:textColor="#ffffff"
+        android:background="#23739F"
+        android:textStyle="bold">
+
+    </Button>
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_refresh"
+        android:text="@string/resend"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        android:padding="20dp"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:background="#23739F"
+        android:textStyle="bold">
+    </Button>
+
+
+
+
+
+</RelativeLayout>
