@@ -3,29 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/text_layout">
+    >
     <RelativeLayout
-        android:id="@+id/profile"
+        android:id="@+id/master_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginVertical="3dp"
         >
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/message_profile_image"
+            android:id="@+id/master_profile_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginHorizontal="3dp"
             app:civ_border_width="2dp"
             android:layout_gravity="center"
             app:civ_border_color="#FFFFFF"
-            android:src="@drawable/loading"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/message_user"
+            android:id="@+id/master_user_name"
             android:textStyle="normal|bold"
+            android:layout_toEndOf="@id/master_profile_image"
             android:gravity="center"
             android:layout_centerVertical="true"
             />
@@ -33,13 +33,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/message_text"
+        android:layout_alignBottom="@id/master_text"
         android:layout_marginHorizontal="2dp"
         android:text="@string/time"
-        android:id="@+id/message_time"
+        android:id="@+id/master_time"
+        android:layout_toEndOf="@id/master_text"
         />
         <TextView
-            android:layout_below="@id/profile"
+            android:layout_below="@id/master_profile"
             android:layout_width="wrap_content"
             android:maxWidth="300sp"
             android:layout_height="wrap_content"
@@ -51,7 +52,8 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:textSize="16sp"
-            android:id="@+id/message_text"
+            android:id="@+id/master_text"
+            android:layout_alignParentStart="true"
             android:text="@string/message_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             />

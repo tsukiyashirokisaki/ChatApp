@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     private String userUidKey;
     private String userPasswordKey;
     private CircleImageView profileImage;
+    private FirebaseRecyclerAdapter<User, UserViewHolder> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +63,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-    @Override
-    protected void onStart () {
-        super.onStart();
         if (userUidKey!=null){
             Utils.LoadAccountData(userUidKey,HomeActivity.this,userName,profileImage);
         }
@@ -78,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         final FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("name"),User.class).build();
-        FirebaseRecyclerAdapter<User, UserViewHolder> adapter = new FirebaseRecyclerAdapter<User, UserViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<User, UserViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull UserViewHolder userViewHolder, int i, @NonNull final User user) {
                 Log.d("reload user name",user.getName());
@@ -95,9 +92,6 @@ public class HomeActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(HomeActivity.this,ChatActivity.class);
                         intent.putExtra("rival",user);
-//                        intent.putExtra("rivalUid",user.getUid());
-//                        intent.putExtra("rivalName",user.getName());
-//                        intent.putExtra("rivalImgUrl",user.getImage());
                         startActivity(intent);
                     }
                 });
@@ -112,8 +106,15 @@ public class HomeActivity extends AppCompatActivity {
         };
         recyclerView.setAdapter(adapter);
         adapter.startListening();
-
-
-
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }

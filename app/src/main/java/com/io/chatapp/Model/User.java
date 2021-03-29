@@ -14,10 +14,8 @@ public class User implements Serializable {
         this.image = image;
         this.email = email;
     }
-
     public User() {
     }
-
     public String getName() {
         return name;
     }
@@ -49,4 +47,6 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

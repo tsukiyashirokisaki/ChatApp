@@ -1,6 +1,7 @@
 package com.io.chatapp.ViewHolder;
 
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,20 @@ public class MessageViewHolder extends RecyclerView.ViewHolder implements View.O
     public CircleImageView profileImage;
     public ItemClickListener listener;
 
-    public MessageViewHolder(@NonNull View itemView) {
+    public MessageViewHolder(@NonNull View itemView, int isMaster) {
         super(itemView);
-        userName = (TextView) itemView.findViewById(R.id.message_user);
-        messageText = (TextView) itemView.findViewById(R.id.message_text);
-        messageTime = (TextView) itemView.findViewById(R.id.message_time);
-        profileImage = (CircleImageView) itemView.findViewById(R.id.message_profile_image);
+        if (isMaster==1){
+            userName = (TextView) itemView.findViewById(R.id.master_user_name);
+            messageText = (TextView) itemView.findViewById(R.id.master_text);
+            messageTime = (TextView) itemView.findViewById(R.id.master_time);
+            profileImage = (CircleImageView) itemView.findViewById(R.id.master_profile_image);
+            }
+        else{
+            userName = (TextView) itemView.findViewById(R.id.rival_user_name);
+            messageText = (TextView) itemView.findViewById(R.id.rival_text);
+            messageTime = (TextView) itemView.findViewById(R.id.rival_time);
+            profileImage = (CircleImageView) itemView.findViewById(R.id.rival_profile_image);
+        }
     }
     @Override
     public void onClick(View view) {

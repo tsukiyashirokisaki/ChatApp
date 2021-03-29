@@ -58,9 +58,9 @@ public class LoginActivity extends AppCompatActivity {
         TextView registerBtn = (TextView) findViewById(R.id.register_btn);
         userUidKey = Paper.book().read(Prevalent.UserUidKey);
         userPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
-        Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
         if (userUidKey!=null & userPasswordKey!=null){
             if (!userUidKey.equals("default_key")){
+                Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
                 startActivity(intent);
             }
         }

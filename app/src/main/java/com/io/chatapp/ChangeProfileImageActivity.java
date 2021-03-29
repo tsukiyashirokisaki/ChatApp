@@ -50,13 +50,20 @@ public class ChangeProfileImageActivity extends AppCompatActivity {
         changeBtn = (ImageView) findViewById(R.id.change_btn);
         myToast = new MyToast(ChangeProfileImageActivity.this);
         storageProfilePictureRef =  FirebaseStorage.getInstance().getReference().child("ProfileImages");
-        Glide.with(ChangeProfileImageActivity.this).load(Prevalent.currentOnlineUser.getImage()).apply(glideOptions).into(profileImage);
+        if (Prevalent.currentOnlineUser!=null){
+            Glide.with(ChangeProfileImageActivity.this).load(Prevalent.currentOnlineUser.getImage()).apply(glideOptions).into(profileImage);
+        }
         changeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Utils.isNetworkAvailable(getApplication())){
                 CropImage.activity(imageUri)
                         .setAspectRatio(1,1)
                         .start(ChangeProfileImageActivity.this);
+                }
+                else{
+                    myToast.show("The network is not available.");
+                }
             }
         });
     }
