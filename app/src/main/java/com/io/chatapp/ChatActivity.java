@@ -2,11 +2,14 @@ package com.io.chatapp;
 
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.io.chatapp.Model.Message;
+import com.io.chatapp.Model.User;
 import com.io.chatapp.Prevalent.Prevalent;
 
 import androidx.annotation.NonNull;
@@ -29,20 +32,23 @@ import android.widget.RelativeLayout;
 
 import com.io.chatapp.ViewHolder.MessageViewHolder;
 
+import static com.io.chatapp.Utils.glideOptions;
+
 public class ChatActivity extends AppCompatActivity {
 
     private FirebaseListAdapter<Message> adapter;
     private Button send_btn;
-    private String rivalUid,rivalName;
+    private User rival;
+//    private String rivalUid,rivalName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        rivalUid = getIntent().getStringExtra("rivalUid");
-        rivalName = getIntent().getStringExtra("rivalName");
-        setTitle(rivalName);
-
+//        rivalUid = getIntent().getStringExtra("rivalUid");
+//        rivalName = getIntent().getStringExtra("rivalName");
+        rival = (User) getIntent().getSerializableExtra("rival");
+        setTitle(rival.getName());
         send_btn = (Button) findViewById(R.id.send_btn);
         Log.d("btn",""+send_btn);
         send_btn.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +60,7 @@ public class ChatActivity extends AppCompatActivity {
                             getReference("Messages").
                             push().
                             setValue(new Message(input.getText().toString(),
-                                    Prevalent.currentOnlineUser.getUid(),rivalUid));
+                                    Prevalent.currentOnlineUser.getUid(),rival.getUid()));
                     Log.d("btn","send message");
                     input.setText("");
                 }
@@ -62,7 +68,6 @@ public class ChatActivity extends AppCompatActivity {
         });
         displayChatMessage();
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()==android.R.id.home){
@@ -71,7 +76,6 @@ public class ChatActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private void displayChatMessage() {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -83,7 +87,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull MessageViewHolder messageViewHolder, int i, @NonNull Message message) {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) messageViewHolder.userName.getLayoutParams();
-                if (message.getSender_uid().equals(Prevalent.currentOnlineUser.getUid())) {
+                if (message.getSender_uid().equals(Prevalent.currentOnlineUser.getUid()) & message.getReceiver_uid().equals(rival.getUid())) {
                     messageViewHolder.messageText.setText(message.getContent());
                     messageViewHolder.userName.setText(Prevalent.currentOnlineUser.getName());
                     messageViewHolder.messageTime.setText(DateFormat.format("HH:mm", message.getTime()));
@@ -95,10 +99,12 @@ public class ChatActivity extends AppCompatActivity {
                     params.addRule(RelativeLayout.END_OF, messageViewHolder.messageText.getId());
                     messageViewHolder.messageTime.setLayoutParams(params);
 
-                } else if (message.getSender_uid().equals(rivalUid)) {
+                    Glide.with(ChatActivity.this).load(Prevalent.currentOnlineUser.getImage()).apply(glideOptions).into(messageViewHolder.profileImage);
+
+                } else if (message.getSender_uid().equals(rival.getUid()) & message.getReceiver_uid().equals(Prevalent.currentOnlineUser.getUid())) {
                     messageViewHolder.userName.setLayoutParams(params);
                     messageViewHolder.messageText.setText(message.getContent());
-                    messageViewHolder.userName.setText(rivalName);
+                    messageViewHolder.userName.setText(rival.getName());
                     messageViewHolder.messageTime.setText(DateFormat.format("HH:mm", message.getTime()));
 
                     params.addRule(RelativeLayout.START_OF, messageViewHolder.profileImage.getId());
@@ -116,14 +122,15 @@ public class ChatActivity extends AppCompatActivity {
                     params.addRule(RelativeLayout.ALIGN_PARENT_END);
                     messageViewHolder.messageText.setLayoutParams(params);
 
+                    Glide.with(ChatActivity.this).load(rival.getImage()).apply(glideOptions).into(messageViewHolder.profileImage);
 
                 } else {
+                    messageViewHolder.profileImage.setVisibility(View.GONE);
                     messageViewHolder.messageText.setVisibility(View.GONE);
                     messageViewHolder.messageTime.setVisibility(View.GONE);
                     messageViewHolder.userName.setVisibility(View.GONE);
                 }
             }
-
             @NonNull
             @Override
             public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -135,36 +142,16 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.startListening();
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            public void onItemRangeInserted(int positionStart, int itemCount) {
+            public void onItemRangeInserted(int positionStart, final int itemCount) {
                 recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        Log.d("item count", "" + adapter.getItemCount());
-                        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                        Log.d("item count", "" + itemCount);
+                        recyclerView.scrollToPosition(itemCount - 1);
                         recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
             }
         });
-
-
-//        recyclerView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        });
-
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        adapter.startListening();
-//    }
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        adapter.stopListening();
-//    }
 }

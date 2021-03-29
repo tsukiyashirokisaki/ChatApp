@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,14 +24,17 @@ import com.io.chatapp.Model.User;
 import com.io.chatapp.Prevalent.Prevalent;
 
 import com.io.chatapp.ViewHolder.UserViewHolder;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
 public class HomeActivity extends AppCompatActivity {
     private TextView userName;
-    private Button logout_btn;
+    private Button logoutBtn;
     private ProgressDialog loadingBar;
     private String userUidKey;
     private String userPasswordKey;
+    private CircleImageView profileImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +44,10 @@ public class HomeActivity extends AppCompatActivity {
         userPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
         userName = (TextView) findViewById(R.id.home_user_name);
         loadingBar = new ProgressDialog(this);
+        profileImage = (CircleImageView) findViewById(R.id.home_profile_image);
         Log.d("uid",userUidKey);
-        logout_btn = (Button) findViewById(R.id.go_to_login);
-        logout_btn.setOnClickListener(new View.OnClickListener() {
+        logoutBtn = (Button) findViewById(R.id.go_to_login);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Paper.book().destroy();
@@ -49,13 +55,19 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this,ChangeProfileImageActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     protected void onStart () {
         super.onStart();
         if (userUidKey!=null){
-            Utils.LoadAccountData(userUidKey,HomeActivity.this,userName);
+            Utils.LoadAccountData(userUidKey,HomeActivity.this,userName,profileImage);
         }
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.user_recyclerview);
         displayUsers(recyclerView);
@@ -64,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
     private void displayUsers(final  RecyclerView recyclerView) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
+        final FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("name"),User.class).build();
         FirebaseRecyclerAdapter<User, UserViewHolder> adapter = new FirebaseRecyclerAdapter<User, UserViewHolder>(options) {
             @Override
@@ -77,12 +89,15 @@ public class HomeActivity extends AppCompatActivity {
                     return ;
                 }
                 userViewHolder.userName.setText(user.getName());
-                userViewHolder.profileImage.setOnClickListener(new View.OnClickListener() {
+                Glide.with(HomeActivity.this).load(user.getImage()).apply(Utils.glideOptions).into(userViewHolder.profileImage);
+                userViewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(HomeActivity.this,ChatActivity.class);
-                        intent.putExtra("rivalUid",user.getUid());
-                        intent.putExtra("rivalName",user.getName());
+                        intent.putExtra("rival",user);
+//                        intent.putExtra("rivalUid",user.getUid());
+//                        intent.putExtra("rivalName",user.getName());
+//                        intent.putExtra("rivalImgUrl",user.getImage());
                         startActivity(intent);
                     }
                 });

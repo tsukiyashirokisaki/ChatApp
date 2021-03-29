@@ -1,9 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ForgetActivity">
+    tools:context=".ForgetActivity"
+    android:background="#39649A"
+    >
+    <ImageView
+        android:contentDescription="@string/app_name"
+        android:id="@+id/forget_logo"
+        android:layout_marginHorizontal="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp" />
+    <EditText
+        android:autofillHints="no"
+        android:id="@+id/forget_email_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_below="@id/forget_logo"
+        android:layout_marginTop="0dp"
+        android:padding="10dp"
+        android:hint="@string/fui_email_hint"
+        android:inputType="textEmailAddress"
+        android:textColor="#ffffff"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:backgroundTint="#00B8D4"
+        />
+    <Button
+        android:layout_below="@id/forget_email_input"
+        android:id="@+id/forget_enter_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        android:text="@string/reset"
+        android:textColor="#ffffff"
+        android:background="#23739F"
+        android:textStyle="bold"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -101,7 +101,6 @@ public class RegisterActivity extends AppCompatActivity {
                             Intent intent = new Intent(RegisterActivity.this,StatusActivity.class);
                             intent.putExtra("password",password);
                             startActivity(intent);
-
                         }
                         else {
                             loadingBar.dismiss();

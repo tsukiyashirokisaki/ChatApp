@@ -7,8 +7,6 @@
     tools:context=".LoginActivity"
     android:background="#39649A"
     >
-
-
     <ImageView
         android:id="@+id/login_logo"
         android:layout_marginHorizontal="30dp"

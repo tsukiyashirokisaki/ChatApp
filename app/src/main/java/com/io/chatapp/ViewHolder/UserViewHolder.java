@@ -1,6 +1,7 @@
 package com.io.chatapp.ViewHolder;
 
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,11 +13,13 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public TextView userName;
     public CircleImageView profileImage;
     public ItemClickListener listener;
+    public RelativeLayout relativeLayout;
 
     public UserViewHolder(@NonNull View itemView) {
         super(itemView);
         userName = (TextView) itemView.findViewById(R.id.user_user_name);
         profileImage = (CircleImageView) itemView.findViewById(R.id.user_profile_image);
+        relativeLayout = (RelativeLayout) itemView.findViewById(R.id.user_relative_layout);
     }
     @Override
     public void onClick(View view) {
