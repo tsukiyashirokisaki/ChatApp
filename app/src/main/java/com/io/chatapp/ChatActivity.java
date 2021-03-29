@@ -143,14 +143,23 @@ public class ChatActivity extends AppCompatActivity {
         adapter.startListening();
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             public void onItemRangeInserted(int positionStart, final int itemCount) {
-                recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        Log.d("item count", "" + itemCount);
-                        recyclerView.scrollToPosition(itemCount - 1);
-                        recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                });
+                RecyclerViewListen(recyclerView);
+            }
+        });
+        recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                RecyclerViewListen(recyclerView);
+            }
+        });
+    }
+    private void RecyclerViewListen(final RecyclerView recyclerView) {
+        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d("item count", "" + recyclerView.getAdapter().getItemCount());
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+                recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
     }
