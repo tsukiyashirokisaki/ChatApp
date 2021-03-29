@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -123,8 +124,12 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else{
                             loadingBar.dismiss();
-                            try{
-                                String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                            try {
+                                throw task.getException();
+                            }catch (FirebaseNetworkException e){
+                                myToast.show("Network error.");
+                            }catch (FirebaseAuthException e) {
+                                String errorCode = e.getErrorCode();
                                 switch (errorCode) {
                                     case "ERROR_INVALID_EMAIL":
                                         myToast.show("Invalid email.");
@@ -140,9 +145,10 @@ public class LoginActivity extends AppCompatActivity {
                                         break;
                                 }
                             }
-                            catch (Error e){
+                            catch (Exception e) {
                                 myToast.show("Unknown error.");
                             }
+
                         }
                     }
                 });

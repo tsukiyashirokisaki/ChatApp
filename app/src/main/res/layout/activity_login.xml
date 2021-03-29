@@ -14,7 +14,7 @@
         android:layout_height="200dp"
         android:src="@drawable/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="10dp" />
     <EditText
         android:autofillHints="no"
         android:id="@+id/login_email_input"
@@ -24,11 +24,11 @@
         android:layout_below="@id/login_logo"
         android:layout_marginTop="0dp"
         android:padding="10dp"
-        android:hint="@string/fui_email_hint"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:textColor="#ffffff"
         android:textColorHint="@android:color/darker_gray"
-        android:textSize="25sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:backgroundTint="#00B8D4"
        />
@@ -42,11 +42,11 @@
         android:backgroundTint="#00B8D4"
         android:padding="10dp"
         android:autofillHints="no"
-        android:hint="@string/fui_password_hint"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:textColor="#ffffff"
         android:textColorHint="@android:color/darker_gray"
-        android:textSize="25sp"
+        android:textSize="18sp"
         android:textStyle="bold"
 
         />
@@ -60,7 +60,7 @@
         android:textAlignment="center"
         android:padding="10dp"
         android:textAllCaps="false"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:text="@string/login"
         android:textColor="#ffffff"
         android:background="#23739F"
@@ -84,7 +84,7 @@
             android:textAlignment="center"
             android:textAllCaps="false"
             android:layout_weight="1"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textColor="#ffffff"
             android:background="#39649A"
             >
@@ -97,7 +97,7 @@
             android:layout_weight="1"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:text="@string/forget_password"
             android:textColor="#ffffff"
             android:background="#39649A"

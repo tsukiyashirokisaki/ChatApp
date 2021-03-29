@@ -15,7 +15,7 @@
         android:layout_height="200dp"
         android:src="@drawable/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"/>
+        android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/text_email"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         android:layout_marginTop="0dp"
         android:padding="10dp"
         android:textColor="#C7DD82"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         />
     <TextView
@@ -37,15 +37,9 @@
         android:layout_marginTop="6dp"
         android:padding="10dp"
         android:textColor="#C7DD82"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         />
-
-
-
-
-
-
     <Button
         android:id="@+id/btn_refresh"
         android:layout_width="match_parent"
@@ -55,7 +49,7 @@
         android:layout_marginTop="6dp"
         android:padding="20dp"
         android:textAllCaps="false"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:text="@string/refresh"
         android:textColor="#ffffff"
         android:background="#23739F"
@@ -72,14 +66,9 @@
         android:layout_marginTop="20dp"
         android:padding="20dp"
         android:textAllCaps="false"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textColor="#ffffff"
         android:background="#23739F"
         android:textStyle="bold">
     </Button>
-
-
-
-
-
 </RelativeLayout>
