@@ -1,6 +1,6 @@
 # ChatApp
-Target device: Pixel (1080*1920, 420dpi)
-Develop Tools: Android Studio (Windows 64-bit)
+Target device: Pixel (1080*1920, 420dpi)  
+Develop Tools: Android Studio (Windows 64-bit)  
 Progamming Language: Java
 ## Implemented Features
 * Scrollable chat messages (required)
