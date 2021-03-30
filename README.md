@@ -29,7 +29,7 @@ com.google.firebase:firebase-storage:19.2.2
 * Allow users to retract their messages
 * Implement chatbot in back-end
 ## Demo Video
-[![](http://img.youtube.com/vi/nzlzLE2m2nA/1.jpg)](http://www.youtube.com/watch?v=nzlzLE2m2nA "")
+[![](http://img.youtube.com/vi/nzlzLE2m2nA/0.jpg)](http://www.youtube.com/watch?v=nzlzLE2m2nA "")
 ## Testing
 Three accounts with password="123456" are created for testing:
 * b06507002@ntu.edu.tw
