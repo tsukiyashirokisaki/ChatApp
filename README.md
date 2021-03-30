@@ -13,7 +13,7 @@ Progamming Language: Java
 * Read/Write user's profile image in Firebase Storage
 * Record the sending time of the message and show it in the chatroom
 * Adjust chatroom interface when the keyboard is popped up
-* Remember the password after logging in at the first time
+* Remember the password after logging in successfully
 ## Important Packages
 ````
 com.github.bumptech.glide:glide:4.11.0
