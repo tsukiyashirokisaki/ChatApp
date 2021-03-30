@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -106,15 +107,16 @@ public class RegisterActivity extends AppCompatActivity {
                             loadingBar.dismiss();
                             try {
                                 throw task.getException();
-                            } catch(FirebaseAuthWeakPasswordException e) {
+                            }catch (FirebaseNetworkException e){
+                                myToast.show("Network error.");
+                            }
+                            catch(FirebaseAuthWeakPasswordException e) {
                                 myToast.show("The password should contain at least 6 characters.");
-                            } catch(FirebaseAuthInvalidCredentialsException e) {
-                                myToast.show("Check your Internet.");
-                            }catch(FirebaseAuthUserCollisionException e) {
+                            } catch(FirebaseAuthUserCollisionException e) {
                                 myToast.show("This account already exists.");
                             } catch(Exception e) {
 
-                                myToast.show("Unknown Error\n"+e.toString());
+                                myToast.show(e.toString());
                             }
                         }
                     }
@@ -151,7 +153,6 @@ public class RegisterActivity extends AppCompatActivity {
                     loadingBar.dismiss();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }

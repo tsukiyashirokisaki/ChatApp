@@ -3,7 +3,6 @@ package com.io.chatapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,12 +23,9 @@ import com.google.firebase.storage.StorageTask;
 import com.io.chatapp.Model.MyToast;
 import com.io.chatapp.Prevalent.Prevalent;
 import com.theartofdev.edmodo.cropper.CropImage;
-
 import java.util.HashMap;
 import java.util.Objects;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-
 import static com.io.chatapp.Utils.glideOptions;
 
 public class ChangeProfileImageActivity extends AppCompatActivity {

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,14 +36,13 @@ import static com.io.chatapp.Utils.glideOptions;
 import static com.io.chatapp.Utils.isNetworkAvailable;
 
 public class ChatActivity extends AppCompatActivity {
-
     private Button send_btn;
     private User rival;
     private MyToast myToast;
     private String path1,path2;
     private Boolean comp;
     private FirebaseRecyclerAdapter<Message, MessageViewHolder> adapter;
-    private int mLastContentHeight;
+    private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +93,9 @@ public class ChatActivity extends AppCompatActivity {
     }
     private void displayChatMessage() {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.message_recyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.message_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
         FirebaseRecyclerOptions<Message> options = new FirebaseRecyclerOptions.Builder<Message>()
                 .setQuery(FirebaseDatabase.getInstance().
@@ -115,11 +116,10 @@ public class ChatActivity extends AppCompatActivity {
                     messageViewHolder.userName.setText(rival.getName());
                     Glide.with(ChatActivity.this).load(rival.getImage()).apply(glideOptions).into(messageViewHolder.profileImage);
                 }
-                }
+            }
             @NonNull
             @Override
             public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
                 if (viewType==1){
                     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.master_message_item, parent, false);
                     return new MessageViewHolder(view,viewType);
@@ -140,26 +140,22 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         };
+        layoutManager.scrollToPosition(adapter.getItemCount()-1);
         recyclerView.setAdapter(adapter);
         adapter.startListening();
-        RecyclerViewListen(recyclerView);
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             public void onItemRangeInserted(int positionStart, final int itemCount) {
-                RecyclerViewListen(recyclerView);
+                layoutManager.scrollToPosition(adapter.getItemCount()-1);
             }
         });
-        mLastContentHeight = findViewById(Window.ID_ANDROID_CONTENT).getHeight();
         recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                int currentContentHeight = findViewById(Window.ID_ANDROID_CONTENT).getHeight();
-                if (mLastContentHeight > currentContentHeight + 100) {
-                    Log.d("keyboard","open");
-                    mLastContentHeight = currentContentHeight;
+                if (oldBottom != bottom | oldTop != top){
+                    layoutManager.scrollToPosition(adapter.getItemCount()-1);
+                }
+                if (oldBottom!=0 & bottom<oldBottom){
                     RecyclerViewListen(recyclerView);
-                } else if (currentContentHeight > mLastContentHeight + 100) {
-                    Log.d("keyboard","close");
-                    mLastContentHeight = currentContentHeight;
                 }
             }
         });
@@ -168,8 +164,8 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                Log.d("item count", "" + recyclerView.getAdapter().getItemCount());
-                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+                Log.d("item count", "" + adapter.getItemCount());
+                recyclerView.scrollToPosition(adapter.getItemCount()-1);
                 recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });

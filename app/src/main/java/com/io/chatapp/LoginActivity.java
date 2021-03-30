@@ -36,6 +36,8 @@ import com.io.chatapp.Model.MyToast;
 import com.io.chatapp.Model.User;
 import com.io.chatapp.Prevalent.Prevalent;
 
+import java.util.Objects;
+
 import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
@@ -111,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                            assert firebaseUser != null;
                             if(!firebaseUser.isEmailVerified()){
                                 myToast.show("Please check the verification email.");
                             }
@@ -125,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                         else{
                             loadingBar.dismiss();
                             try {
-                                throw task.getException();
+                                throw Objects.requireNonNull(task.getException());
                             }catch (FirebaseNetworkException e){
                                 myToast.show("Network error.");
                             }catch (FirebaseAuthException e) {
@@ -141,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                                         myToast.show("密碼錯誤或無此用戶");
                                         break;
                                     default:
-                                        myToast.show("Unknown recognized error.\n"+errorCode);
+                                        myToast.show(errorCode);
                                         break;
                                 }
                             }

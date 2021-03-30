@@ -52,7 +52,7 @@ public class ForgetActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            myToast.show("Fail to send password reset email\nThe error is"+e.toString());
+                            myToast.show("Fail to send password reset email.\n"+e.toString());
                         }
                     });
                 }
