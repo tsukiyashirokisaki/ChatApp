@@ -25,8 +25,8 @@ com.google.firebase:firebase-storage:19.2.2
 ````
 ## Todo
 * Pop up notification when messages come
-* Allow user to send pictures, voice, or other types of data
-* Allow user to retract their messages
+* Allow users to send pictures, voice, or other types of data
+* Allow users to retract their messages
 * Implement chatbot in back-end
 ## Demo Video
 [![](http://img.youtube.com/vi/CugO6Cd5vpY/0.jpg)](http://www.youtube.com/watch?v=CugO6Cd5vpY "")
