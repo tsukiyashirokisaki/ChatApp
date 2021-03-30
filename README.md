@@ -1,5 +1,5 @@
 # ChatApp
-Target device: Pixel (1080*1920, 420dpi)  
+Target device: Google Pixel (1080*1920, 420dpi)  
 Develop Tools: Android Studio (Windows 64-bit)  
 Progamming Language: Java
 ## Implemented Features
