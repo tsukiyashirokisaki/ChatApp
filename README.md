@@ -23,7 +23,7 @@ com.google.firebase:firebase-database:19.7.0
 com.google.firebase:firebase-auth:20.0.3
 com.google.firebase:firebase-storage:19.2.2
 ````
-## TODO
+## Todo
 * Pop up notification when messages come
 * Allow user to send pictures, voice, or other types of data
 * Allow user to retract their messages
