@@ -1,0 +1,18 @@
+AIzaSyAnU8CmfDD8S3X6xAYvlScSwvhrm2mht2A
+/private/var/folders/7k/k_lqzskx5w1fmybr10020pzm0000gn/T/CocoaPods/Try/GoogleMaps/Example/GoogleMapsDemos.xcworkspace
+/private/var/folders/7k/k_lqzskx5w1fmybr10020pzm0000gn/T/CocoaPods/Try/GoogleMaps/SwiftExample/GoogleMapsSwiftDemos.xcworkspace
+Show rates only in the listpage. The address will display after clicking items
+https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyAnU8CmfDD8S3X6xAYvlScSwvhrm2mht2A
+
+https://github.com/cwlin1998/hcid-project.git
+curl -X POST http://localhost:8000/plans -d '{"user":guest}
+curl -X POST -H "Content-Type: application/json" -d '{"user" : guest}' "http://localhost:8000/plans"
+b06507002kisakidaisuki
+
+direction: AIzaSyAnU8CmfDD8S3X6xAYvlScSwvhrm2mht2A
+25.0338489
+121.5645294
+https://maps.googleapis.com/maps/api/directions/json?
+origin=Brooklyn&destination=Queens
+&mode=transit
+&key=AIzaSyAnU8CmfDD8S3X6xAYvlScSwvhrm2mht2A
